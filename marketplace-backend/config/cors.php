@@ -2,25 +2,33 @@
 
 return [
 
-/*
-|--------------------------------------------------------------------------
-| Cross-Origin Resource Sharing (CORS) Configuration
-|--------------------------------------------------------------------------
-*/
+    /*
+    |--------------------------------------------------------------------------
+    | Cross-Origin Resource Sharing (CORS) Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure your settings for cross-origin resource sharing
+    | or "CORS". This determines what cross-origin operations may execute
+    | in web browsers. You are free to adjust these settings as needed.
+    |
+    | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+    |
+    */
 
-'paths' => ['api/*', 'sanctum/csrf-cookie'], // Укажите пути, на которые применяются CORS
+    'paths' => ['*'],
 
-'allowed_methods' => ['*'], // Укажите методы (GET, POST, PUT и т.д.). '*' разрешает все.
+    'allowed_methods' => ['*'],
 
-'allowed_origins' => ['*'], // Укажите домены, которым разрешен доступ. '*' разрешает все.
+    'allowed_origins' => ['http://localhost:5173'],
 
-'allowed_origins_patterns' => [], // Регулярные выражения для разрешения доменов.
+    'allowed_origins_patterns' => [],
 
-'allowed_headers' => ['*'], // Заголовки, которые могут быть отправлены. '*' разрешает все.
+    'allowed_headers' => ['*'],
 
-'exposed_headers' => [], // Заголовки, которые можно использовать на стороне клиента.
+    'exposed_headers' => [],
 
-'max_age' => 0, // Максимальное время кеширования ответа CORS в секундах.
+    'max_age' => 0,
 
-'supports_credentials' => true, // Разрешить отправку данных с учетными данными (например, cookies).
+    'supports_credentials' => true,
+
 ];
