@@ -22,7 +22,7 @@
     methods: {
       async login() {
         await axios.get('/sanctum/csrf-cookie');
-        await axios.post('/login', { email: this.email, password: this.password });
+        await axios.post('/api/login', { email: this.email, password: this.password });
         this.$router.push({ name: 'dashboard' });
       },
     },
