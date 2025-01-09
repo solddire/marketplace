@@ -21,7 +21,7 @@ export default {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     }
                 });
-                alert(response.data.message);
+                alert("Сообщение направлено еще раз!");
             } catch (error) {
                 console.error('Ошибка отправки письма:', error.response.data);
             }

@@ -6,10 +6,10 @@ import EmailVerify from '../views/EmailVerify.vue';
 // import DashboardPage from '../views/DashboardPage.vue';
 
 const routes = [
-  { path: '/', component: HomePage, name: 'home' },
-  { path: '/login', component: LoginPage, name: 'login' },
-  { path: '/register', component: RegisterPage, name: 'register' },
-  { path: '/email-verify', component: EmailVerify, name: 'email-verify' },
+  { path: '/', component: HomePage, name: 'home', meta: { title: 'Главная страница' }, },
+  { path: '/login', component: LoginPage, name: 'login', meta: { title: 'Вход' }, },
+  { path: '/register', component: RegisterPage, name: 'register', meta: { title: 'Регистрация' }, },
+  { path: '/email-verify', component: EmailVerify, name: 'email-verify', meta: { title: 'Подтверждение почты' }, },
   // { path: '/dashboard', component: DashboardPage, name: 'dashboard' },
 ];
 
