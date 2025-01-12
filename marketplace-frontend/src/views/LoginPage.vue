@@ -24,7 +24,8 @@
             </div>
           </div>
           <div class="mt-2">
-            <input v-model="password" type="password" name="password" id="password" autocomplete="current-password" required
+            <input v-model="password" type="password" name="password" id="password" autocomplete="current-password"
+              required
               class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
           </div>
         </div>
@@ -37,7 +38,7 @@
 
       <p class="mt-10 text-center text-sm/6 text-gray-500">
         Еще не зарегистрированы?
-        <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Зарегистрироваться</a>
+        <a href="/register" class="font-semibold text-indigo-600 hover:text-indigo-500">Зарегистрироваться</a>
       </p>
     </div>
   </div>
@@ -55,9 +56,9 @@ export default {
   },
   methods: {
     async login() {
-      await axios.get('/sanctum/csrf-cookie');
-      await axios.post('/api/login', { email: this.email, password: this.password });
-      this.$router.push({ name: 'dashboard' });
+      const response = await axios.post('/api/login', { email: this.email, password: this.password });
+      localStorage.setItem('token', response.data.token);
+      this.$router.push({ name: 'home' });
     },
   },
 };

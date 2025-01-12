@@ -16,7 +16,7 @@ export default {
     methods: {
         async resendVerificationLink() {
             try {
-                const response = await axios.post('/api/email/verification-notification', {}, {
+                const response = await axios.post('/email/verification-notification', {}, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     }

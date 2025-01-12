@@ -141,7 +141,7 @@ export default {
             }
 
             try {
-                const response = await axios.post("/api/register", {
+                await axios.post("/api/register", {
                     first_name: this.firstName,
                     last_name: this.secondName,
                     email: this.email,
@@ -150,15 +150,7 @@ export default {
                     password_confirmation: this.passwordConfirmation,
                 });
 
-                await axios.post('/api/email/verification-notification', {}, {
-                    headers: {
-                        'Authorization': `Bearer ${response.data.token}`,
-                    }
-                });
-
-                localStorage.setItem('token', response.data.token);
-
-                this.$router.push({ name: "email-verify" });
+                this.$router.push({ name: "login" });
             } catch (error) {
                 if (error.response && error.response.data.errors) {
                     if (error.response.data.errors.email) {

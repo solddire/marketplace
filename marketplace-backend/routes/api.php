@@ -4,21 +4,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\Auth\VerifyEmailController;
+use Illuminate\Auth\Events\Registered;
 use App\Models\User;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
-
-Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-    ->middleware(['auth:sanctum', 'throttle:6,1'])
-    ->name('verification.send');
-
-Route::get('/verify-email/{id}/{hash}', [VerifyEmailController::class, 'verify'])
-    ->middleware(['auth:sanctum', 'signed', 'throttle:6,1'])
-    ->name('verification.verify');
 
 Route::post('/register', function (Request $request) {
 
@@ -38,11 +29,12 @@ Route::post('/register', function (Request $request) {
         'password' => Hash::make($validated['password']),
     ]);
 
-    $token = $user->createToken('API Token')->plainTextToken;
+    Auth::login($user);
+
+    event(new Registered($user));
 
     return response()->json([
-        'user' => $user,
-        'token' => $token,
+        'message' => 'Пользователь успешно зарегистрирован. Проверьте вашу почту для подтверждения.',
     ]);
 });
 
