@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -54,3 +55,9 @@ Route::post('/login', function (Request $request) {
 
     return response()->json(['message' => 'Invalid credentials'], 401);
 });
+
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/{category}/subcategories', [CategoryController::class, 'subcategories']);
+Route::get('/ads', [AdController::class, 'index']);
+Route::get('/ads/{category_slug}/{subcategory_slug?}', [AdController::class, 'index']);
+Route::get('/ads/{category_slug}/{subcategory_slug}/{ad_slug}', [AdController::class, 'show']);

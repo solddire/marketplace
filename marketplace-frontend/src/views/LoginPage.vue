@@ -13,7 +13,8 @@
           <label for="email" class="block text-sm/6 font-medium text-gray-900">E-mail</label>
           <div class="mt-2">
             <input v-model="email" type="email" name="email" id="email" autocomplete="email" required
-              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              :class="{ 'outline-red-500': errorMessage }" />
           </div>
         </div>
         <div v-if="!isForgotPassword">
@@ -27,8 +28,10 @@
           <div class="mt-2">
             <input v-model="password" type="password" name="password" id="password" autocomplete="current-password"
               required
-              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              :class="{ 'outline-red-500': errorMessage }" />
           </div>
+          <p v-if="errorMessage" class="text-red-500 text-xs">{{ errorMessage }}</p>
         </div>
         <div>
           <button type="submit"
@@ -55,6 +58,7 @@ export default {
       email: '',
       password: '',
       isForgotPassword: false,
+      errorMessage: '',
     };
   },
   methods: {
@@ -71,7 +75,7 @@ export default {
         localStorage.setItem('token', response.data.token);
         this.$router.push({ name: 'home' });
       } catch (error) {
-        this.error = 'Неверные данные для входа.';
+        this.errorMessage = 'Неверные данные для входа!';
       }
     },
 
@@ -80,7 +84,7 @@ export default {
         await axios.post('/forgot-password', { email: this.email });
         this.success = 'Ссылка для сброса пароля отправлена на вашу почту.';
       } catch (error) {
-        this.error = 'Произошла ошибка. Попробуйте снова.';
+        this.errorMessage = 'Произошла ошибка. Попробуйте снова!';
       }
     },
   },
