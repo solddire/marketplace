@@ -6,10 +6,12 @@
       <li v-for="result in results" :key="result.id">{{ result.name }}</li>
     </ul>
   </div>
+  <CategorySelector />
 </template>
 
 <script>
 import axios from '../axios';
+import CategorySelector from './components/CategorySelector.vue';
 
 export default {
   data() {
@@ -17,6 +19,9 @@ export default {
       query: '',
       results: [],
     };
+  },
+  components: {
+    CategorySelector 
   },
   methods: {
     async search() {
