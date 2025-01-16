@@ -5,6 +5,10 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
+import Header from './views/components/Header.vue';
+
+const headerApp = createApp(Header);
+headerApp.mount('#header-root');
 
 const app = createApp(App)
 
