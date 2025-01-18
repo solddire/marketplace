@@ -14,6 +14,9 @@ class CategoriesSeeder extends Seeder
      */
     public function run()
     {
+        Category::truncate();
+        Subcategory::truncate();
+
         $categories = [
             'Электроника' => ['Смартфоны', 'Ноутбуки', 'Телевизоры'],
             'Мебель' => ['Кровати', 'Диваны', 'Столы'],
@@ -27,10 +30,19 @@ class CategoriesSeeder extends Seeder
             ]);
 
             foreach ($subcategories as $subcategoryName) {
+                $slug = \Str::slug($subcategoryName);
+                $originalSlug = $slug;
+                $counter = 1;
+        
+                while (Subcategory::where('slug', $slug)->exists()) {
+                    $slug = $originalSlug . '-' . $counter;
+                    $counter++;
+                }
+        
                 Subcategory::create([
                     'category_id' => $category->id,
                     'name' => $subcategoryName,
-                    'slug' => \Str::slug($subcategoryName),
+                    'slug' => $slug,
                 ]);
             }
         }

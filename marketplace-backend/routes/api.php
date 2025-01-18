@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,6 @@ Route::post('/login', function (Request $request) {
 
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{category}/subcategories', [CategoryController::class, 'subcategories']);
-Route::get('/ads', [AdController::class, 'index']);
-Route::get('/ads/{category_slug}/{subcategory_slug?}', [AdController::class, 'index']);
-Route::get('/ads/{category_slug}/{subcategory_slug}/{ad_slug}', [AdController::class, 'show']);
+Route::get('/ads', [ProductController::class, 'index']);
+Route::get('/ads/{category_slug}/{subcategory_slug?}', [ProductController::class, 'index']);
+Route::get('/ads/{category_slug}/{subcategory_slug}/{ad_slug}', [ProductController::class, 'show']);

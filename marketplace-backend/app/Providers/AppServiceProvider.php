@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\ServiceProvider;
+use App\Models\Category;
+use Illuminate\Support\Facades\Route;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Route::model('category', Category::class);
+
+        Route::bind('category', function ($value) {
+            return Category::where('slug', $value)->firstOrFail();
+        });
+
         VerifyEmail::createUrlUsing(function ($notifiable) {
             $frontendUrl = 'http://localhost:5173/email/verify';
     

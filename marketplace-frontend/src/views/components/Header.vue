@@ -22,17 +22,17 @@
                     <div class="flex">
                         <!-- Список категорий -->
                         <ul class="w-1/3 border-r">
-                            <li v-for="category in categories" :key="category.name" @click="selectCategory(category)"
+                            <li v-for="category in categories" :key="category.id" @click="selectCategory(category.slug)"
                                 class="px-4 py-2 cursor-pointer hover:bg-gray-100">
                                 {{ category.name }}
                             </li>
                         </ul>
 
-                        <!-- Подкатегории -->
+
                         <ul class="w-2/3">
-                            <li v-for="subcategory in selectedCategory.subcategories" :key="subcategory"
+                            <li v-for="subcategory in subcategories" :key="subcategory.id"
                                 class="px-4 py-2 hover:bg-gray-100">
-                                {{ subcategory }}
+                                {{ subcategory.name }}
                             </li>
                         </ul>
                     </div>
@@ -74,19 +74,19 @@
 </template>
 
 <script>
+import axios from '../../axios';
+
 export default {
     data() {
         return {
             showCategories: false,
             showRegions: false,
-            selectedCategory: { name: "", subcategories: [] },
+            selectedCategory: null,
+            selectedSubcategory: null,
             selectedRegion: "Москва",
             searchQuery: "",
-            categories: [
-                { name: "Недвижимость", subcategories: ["Квартиры", "Дома", "Офисы"] },
-                { name: "Авто", subcategories: ["Легковые", "Грузовые", "Мотоциклы"] },
-                { name: "Электроника", subcategories: ["Телефоны", "Ноутбуки", "ТВ"] },
-            ],
+            categories: [],
+            subcategories: [],
             regions: ["Москва", "Санкт-Петербург", "Новосибирск", "Екатеринбург"],
         };
     },
@@ -95,8 +95,25 @@ export default {
             this.showCategories = !this.showCategories;
             this.showRegions = false;
         },
-        selectCategory(category) {
-            this.selectedCategory = category;
+        async selectCategory(categorySlug) {
+            this.selectedCategory = categorySlug;
+            await this.fetchSubcategories();
+        },
+        async fetchCategories() {
+            try {
+                const response = await axios.get('/api/categories');
+                this.categories = response.data;
+            } catch (error) {
+                console.error("Ошибка при загрузке категорий:", error);
+            }
+        },
+        async fetchSubcategories() {
+            try {
+                const response = await axios.get(`/api/categories/${this.selectedCategory}/subcategories`);
+                this.subcategories = response.data;
+            } catch (error) {
+                console.error("Ошибка при загрузке подкатегорий:", error);
+            }
         },
         toggleRegions() {
             this.showRegions = !this.showRegions;
@@ -109,6 +126,9 @@ export default {
         search() {
             alert(`Ищем: ${this.searchQuery}`);
         },
+    },
+    mounted() {
+        this.fetchCategories();
     },
 };
 </script>

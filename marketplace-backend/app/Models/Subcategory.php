@@ -25,8 +25,8 @@ class Subcategory extends Model
     {
         return $this->belongsTo(Category::class);
     }
-    public function ads()
+    public function product()
     {
-        return $this->hasMany(Ad::class);
+        return $this->hasMany(Product::class);
     }
 }
