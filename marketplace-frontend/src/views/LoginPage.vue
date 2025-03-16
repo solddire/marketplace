@@ -73,6 +73,7 @@ export default {
       try {
         const response = await axios.post('/api/login', { email: this.email, password: this.password });
         localStorage.setItem('token', response.data.token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
         this.$router.push({ name: 'home' });
       } catch (error) {
         this.errorMessage = 'Неверные данные для входа!';

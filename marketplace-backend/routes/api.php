@@ -57,6 +57,11 @@ Route::post('/login', function (Request $request) {
     return response()->json(['message' => 'Invalid credentials'], 401);
 });
 
+Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
+    $request->user()->tokens()->delete(); // Удаляет все токены пользователя
+    return response()->json(['message' => 'Logged out successfully']);
+});
+
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{category}/subcategories', [CategoryController::class, 'subcategories']);
 Route::get('/ads', [ProductController::class, 'index']);

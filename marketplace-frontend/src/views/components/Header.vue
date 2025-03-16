@@ -3,7 +3,7 @@
         <div class="container mx-auto flex items-center justify-between px-4 py-2">
             <!-- Логотип -->
             <div class="flex items-center mr-5">
-                <a href="/" class="text-2xl font-bold text-blue-600">Avito</a>
+                <a href="/" class="text-2xl font-bold text-blue-600">Vendo</a>
             </div>
 
             <!-- Выпадающий список Все категории -->
@@ -22,7 +22,7 @@
                     <div class="flex">
                         <!-- Список категорий -->
                         <ul class="w-1/3 border-r">
-                            <li v-for="category in categories" :key="category.id" @click="selectCategory(category.slug)"
+                            <li v-for="category in categories" :key="category.id" @mouseenter="selectCategory(category.slug)"
                                 class="px-4 py-2 cursor-pointer hover:bg-gray-100">
                                 {{ category.name }}
                             </li>
@@ -69,6 +69,26 @@
                     </ul>
                 </div>
             </div>
+            <div class="relative ml-4">
+                <template v-if="isLoggedIn">
+                    <button @click="toggleProfile" class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none">
+                        <img :src="userPhoto ? userPhoto : defaultAvatar" alt="Avatar" class="w-6 h-6 rounded-full">
+                        <span class="ml-2">{{ userName }}</span>
+                    </button>
+                    <div v-if="showProfile" class="absolute right-0 w-48 bg-white border rounded-lg shadow-lg mt-2 z-10">
+                        <ul>
+                            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Мой профиль</li>
+                            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Настройки</li>
+                            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer" @click="logout">Выйти</li>
+                        </ul>
+                    </div>
+                </template>
+                <template v-else>
+                    <button @click="login" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none">
+                        Войти
+                    </button>
+                </template>
+            </div>
         </div>
     </div>
 </template>
@@ -81,8 +101,13 @@ export default {
         return {
             showCategories: false,
             showRegions: false,
+            showProfile: false,
             selectedCategory: null,
             selectedSubcategory: null,
+            isLoggedIn: false,
+            userName: "",
+            userPhoto: "",
+            defaultAvatar: "https://ui-avatars.com/api/?nameUser&size=40",
             selectedRegion: "Москва",
             searchQuery: "",
             categories: [],
@@ -115,6 +140,18 @@ export default {
                 console.error("Ошибка при загрузке подкатегорий:", error);
             }
         },
+        async checkAuth(){
+            try{
+                const response = await axios.get('/api/user');
+                if (response.status == 200){
+                    this.isLoggedIn = true;
+                    this.userName = response.data.first_name;
+                    this.userPhoto = response.data.photo;
+                }
+            } catch (error){
+                console.error("Ошибка проверки авторизации", error)
+            }
+        },
         toggleRegions() {
             this.showRegions = !this.showRegions;
             this.showCategories = false;
@@ -126,9 +163,28 @@ export default {
         search() {
             alert(`Ищем: ${this.searchQuery}`);
         },
+        toggleProfile(){
+            this.showProfile = !this.showProfile;
+        },
+        login(){
+            window.location.href = "/login";
+        },
+        logout(){
+            axios.post('api/logout').then(() => {
+                this.isLoggedIn = false;
+                this.userName = "";
+                this.userPhoto = "";
+                this.showProfile = false;
+            });
+        },
     },
     mounted() {
         this.fetchCategories();
+        const token = localStorage.getItem('token');
+        if (token){
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            this.checkAuth();
+        }
     },
 };
 </script>
