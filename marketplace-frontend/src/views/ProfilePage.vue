@@ -135,7 +135,6 @@ export default {
         };
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          // Если пользователь не авторизован, перенаправляем на страницу входа
           this.$router.push('/login');
           return;
         }
