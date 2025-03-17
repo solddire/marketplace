@@ -1,11 +1,22 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
+<script>
+import DefaultLayout from './layouts/DefaultLayout.vue'
 
+export default {
+  name: 'App',
+  components: {
+    DefaultLayout
+  }
+}
 </script>
 
 <template>
-  <RouterView />
+  <DefaultLayout>
+    <router-view></router-view>
+  </DefaultLayout>
 </template>
 
-<style scoped>
+<style>
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 </style>

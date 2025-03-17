@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
 use App\Models\User;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PhotoController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -67,3 +69,7 @@ Route::get('/categories/{category}/subcategories', [CategoryController::class, '
 Route::get('/ads', [ProductController::class, 'index']);
 Route::get('/ads/{category_slug}/{subcategory_slug?}', [ProductController::class, 'index']);
 Route::get('/ads/{category_slug}/{subcategory_slug}/{ad_slug}', [ProductController::class, 'show']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/upload-photo', [PhotoController::class, 'upload']);
+});

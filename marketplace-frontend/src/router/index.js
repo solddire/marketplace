@@ -5,6 +5,7 @@ import RegisterPage from '../views/RegisterPage.vue';
 import EmailVerify from '../views/EmailVerify.vue';
 import EmailVerification from '@/views/EmailVerification.vue';
 import ResetPassword from '@/views/ResetPassword.vue';
+import ProfilePage from '@/views/ProfilePage.vue';
 // import DashboardPage from '../views/DashboardPage.vue';
 
 const routes = [
@@ -13,6 +14,7 @@ const routes = [
   { path: '/register', component: RegisterPage, name: 'register', meta: { title: 'Регистрация' }, },
   { path: '/email/verify', component: EmailVerification, name: 'email-verify', meta: { title: 'Подтверждение почты' }, },
   { path: '/password-reset/:token', component: ResetPassword, name: 'password-reset', meta: { title: 'Сброс пароля' }, },
+  { path: '/profile', component: ProfilePage, name: 'profile', meta: { title: 'Мой профиль', requiresAuth: true }, },
   // { path: '/dashboard', component: DashboardPage, name: 'dashboard' },
 ];
 
