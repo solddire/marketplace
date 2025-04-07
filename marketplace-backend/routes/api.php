@@ -68,6 +68,7 @@ Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{category}/subcategories', [CategoryController::class, 'subcategories']);
 Route::get('/ads', [AdController::class, 'index']);
+Route::post('/ads', [AdController::class, 'store'])->middleware('auth:sanctum');
 Route::get('/ads/{category_slug}/{subcategory_slug?}', [AdController::class, 'index']);
 Route::get('/ads/{category_slug}/{subcategory_slug}/{ad_slug}', [AdController::class, 'show']);
 
