@@ -30,7 +30,7 @@
                     </button>
 
                     <!-- Список регионов -->
-                    <div v-if="showRegions" class="absolute right-0 w-64 bg-white border rounded-lg shadow-lg mt-2 z-10">
+                    <div v-if="showRegions" class="absolute left-n65p w-64 bg-white border rounded-lg shadow-lg mt-2 z-10">
                         <ul>
                             <li v-for="region in regions" :key="region" @click="selectRegion(region)"
                                 class="px-4 py-2 cursor-pointer hover:bg-gray-100">
@@ -41,13 +41,14 @@
                 </div>
 
                 <!-- Профиль (десктопная версия) -->
-                <div class="hidden md:flex items-center ml-4">
-                    <router-link to="/profile" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
+                <div class="hidden md:flex items-center ml-4 relative" ref="dropdownRef">
+                    <div @click="showDropdown = !showDropdown" class="flex items-center space-x-2 cursor-pointer text-gray-700 hover:text-blue-600">
                         <template v-if="loading">
                             <div class="flex items-center space-x-2">
                                 <svg class="animate-spin h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                                 </svg>
                                 <span class="text-sm font-medium">Загрузка...</span>
                             </div>
@@ -55,8 +56,17 @@
                         <template v-else>
                             <img :src="defaultAvatar" alt="Аватар" class="w-8 h-8 rounded-full">
                             <span class="text-sm font-medium">{{ userName }}</span>
+                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
                         </template>
-                    </router-link>
+                    </div>
+                    <!-- Выпадающее меню -->
+                    <div v-if="showDropdown"
+                        class="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-50 top-34px left-n8px">
+                        <router-link to="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Профиль</router-link>
+                        <router-link to="/my-ads" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Мои объявления</router-link>
+                    </div>
                 </div>
             </div>
         </div>
@@ -71,6 +81,7 @@ export default {
         return {
             showRegions: false,
             selectedRegion: "Москва",
+            showDropdown: false,
             searchQuery: "",
             regions: ["Москва", "Санкт-Петербург", "Новосибирск", "Екатеринбург"],
             userName: "Пользователь",

@@ -14,12 +14,14 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@vueuse/core": "^13.0.0",
     "axios": "^1.7.9",
     "cropperjs": "^2.0.0",
     "libphonenumber-js": "^1.11.17",
     "pinia": "^2.3.0",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.0"
+    "vue-router": "^4.5.0",
+    "vuetify": "^3.7.18"
   },
   "devDependencies": {
     "@eslint/js": "^9.14.0",
