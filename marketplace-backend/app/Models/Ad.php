@@ -15,6 +15,11 @@ class Ad extends Model
         'price',
         'category_id',
         'subcategory_id',
+        'views_count',
+        'favorites_count',
+        'is_featured',
+        'is_promoted',
+        'last_viewed_at',
     ];
 
     public function category()
